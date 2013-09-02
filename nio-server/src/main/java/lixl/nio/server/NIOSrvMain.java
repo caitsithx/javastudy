@@ -17,7 +17,7 @@ public class NIOSrvMain {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		NIOTCPSrvSocketWrapper tcpSrv = new NIOTCPSrvSocketWrapper();
+		NIOTCPServer tcpSrv = new NIOTCPServer();
 		tcpSrv.start();
 	}
 

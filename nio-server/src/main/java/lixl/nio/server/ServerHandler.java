@@ -19,14 +19,14 @@ public class ServerHandler implements Runnable {
 //
 //	}
 //	
-	private NIOTCPSrvSocketWrapper tcpServer;
+	private NIOTCPServer tcpServer;
 	
 
 
 	/**
 	 * @param p_tcpServer the tcpServer to set
 	 */
-	public void setTcpServer(NIOTCPSrvSocketWrapper p_tcpServer) {
+	public void setTcpServer(NIOTCPServer p_tcpServer) {
 		this.tcpServer = p_tcpServer;
 	}
 
@@ -34,28 +34,7 @@ public class ServerHandler implements Runnable {
 
 	@Override
 	public void run() { // normally in a new Thread
-		try {
-			while (!Thread.interrupted()) {
-				Set<SelectionKey> l_selectedKeys = tcpServer.selectKeys();
-				Iterator<SelectionKey> l_skItr = l_selectedKeys.iterator();
-				while (l_skItr.hasNext()) {
-					try {
-						SelectionKey l_sk = l_skItr.next();
-						if(l_sk.isValid()) {
-							try {
-							tcpServer.dispatch(l_sk);
-							} catch (IOException ex) {
-								tcpServer.closeSocketChannel((Integer)l_sk.attachment());
-							}
-						}
-					} finally {
-						l_skItr.remove();
-					}
-				}
-			}
-		} catch (Exception ex) {
-			System.err.println(ex);
-		}
+			tcpServer.selectFor();
 	}
 
 }

@@ -21,13 +21,13 @@ public class NIOClientMain
                 30, 
                 TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
         
-        for (int i = 0; i < 1; i++) {
+            NIOTCPClientSocketWrapper l_tcpClient = new NIOTCPClientSocketWrapper();
+            l_tcpClient.setRemoteHostName(l_hostName);
+            l_tcpClient.setPort(l_port);
             
-            NIOClient l_client = new NIOClient();
-                l_client.setHostName(l_hostName);
-                l_client.setPort(l_port);
-                l_clientRunner.submit(l_client);
-        }
+            NIOClientRunner l_runner = new NIOClientRunner();
+            l_runner.setTcpClient(l_tcpClient);
+            l_clientRunner.submit(l_runner);
 
             
     }
